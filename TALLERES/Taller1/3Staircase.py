@@ -9,6 +9,7 @@ def staircase(n):
     for x in range(0,n):
         escalon = " "*(n - x) + "#"*(x+1)
         lista.append(escalon)
-        print(lista[x])
-staircase(12)
+        print(*lista[x])
+y = int(input("Introduzca el número de escalones: "))
+staircase(y)
     
