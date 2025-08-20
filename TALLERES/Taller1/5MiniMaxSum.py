@@ -10,5 +10,5 @@ def miniMaxSum(arr):
     for comb in combinations(arr, 4):
         lista.append(comb[0] + comb[1] + comb[2] + comb[3])
     print(min(lista),max(lista))
-valor = list(map(int, input("Escribe los números (mínimo 3): ").split()))
+valor = list(map(int, input("Escribe los números (mínimo 5): ").split()))
 miniMaxSum(valor)
