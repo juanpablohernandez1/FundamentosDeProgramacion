@@ -108,9 +108,10 @@ class Vector:
         if len(self.values) != len(other.values):
             raise ValueError("Los vectores deben tener la misma dimensión")
         
+        prod_punto = 0
         for x in range(len(self.values)):
             prod_punto += self.values[x] * other.values[x]
-            return prod_punto
+        return prod_punto
         """
         Calcula el producto punto con otro vector.
         
