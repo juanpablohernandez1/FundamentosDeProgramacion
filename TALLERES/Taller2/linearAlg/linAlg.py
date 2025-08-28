@@ -1,14 +1,10 @@
 """
 Módulo principal de la librería de álgebra lineal
 =================================================
-
-Este módulo contiene las implementaciones de las clases Vector y Matrix,
-así como las funciones de álgebra lineal asociadas.
 """
 
 import math
 from typing import List, Union, Tuple, Optional
-
 
 class Vector:
     """
@@ -221,7 +217,7 @@ class Matrix:
     
     def __add__(self, other: 'Matrix') -> 'Matrix':
         if len(self.values) != len(other.values) or len(self.values[0]) != len(other.values[0]):
-            raise ValueError("Los vectores no tienen la misma dimensión")
+            raise ValueError("Los matrices no tienen la misma dimensión")
         result = []
         for i in range(len(self.values)):
             fila = []
@@ -233,7 +229,7 @@ class Matrix:
     
     def __sub__(self, other: 'Matrix') -> 'Matrix':
         if len(self.values) != len(other.values) or len(self.values[0]) != len(other.values[0]):
-            raise ValueError("Los vectores no tienen la misma dimensión")
+            raise ValueError("Las matrices no tienen la misma dimensión")
         result = []
         for i in range(len(self.values)):
             fila = []
@@ -293,7 +289,6 @@ class Matrix:
                         return False
             return True
         """Igualdad entre matrices usando el operador ==."""
-        pass
     
     def __ne__(self, other: 'Matrix') -> bool:
         if len(self.values) != len(other.values) or len(self.values[0]) != len(other.values[0]):
@@ -305,7 +300,6 @@ class Matrix:
                         return True
             return False
         """Desigualdad entre matrices usando el operador !=."""
-        pass
     
     @property
     def num_rows(self) -> int:
@@ -393,12 +387,30 @@ class Matrix:
         """Verifica si la matriz es cuadrada."""
     
     def is_symmetric(self) -> bool:
+        if len(self.values) != len(self.values[0]):
+            return False
+        elif self != self.T:
+            return False
+        else:
+            return True 
         """Verifica si la matriz es simétrica."""
     
     def is_diagonal(self) -> bool:
+        if len(self.values) != len(self.values[0]):
+            return False
+        else:
+            for i in range(len(self.values)):
+                for j in range(len(self.values[0])):
+                    if i == j:
+                        pass
+                    else:
+                        if self.values[i][j] != 0:
+                            return False
+            return True
         """Verifica si la matriz es diagonal."""
     
     def get_row(self, index: int) -> 'Vector':
+        return Vector(self.values[index])
         """
         Obtiene una fila específica como vector.
         
@@ -411,6 +423,7 @@ class Matrix:
         pass
     
     def get_column(self, index: int) -> 'Vector':
+        return Vector([fila[index] for fila in self.values])
         """
         Obtiene una columna específica como vector.
         
@@ -428,6 +441,13 @@ class Matrix:
 # =============================================================================
 
 def dot_product(v1: Vector, v2: Vector) -> float:
+    if len(v1.values) != len(v2.values):
+        raise ValueError("Los vectores no tienen la misma dimensión")
+    
+    prod_punto = 0
+    for i in range(len(v1.values)):
+        prod_punto += v1.values[i] * v2.values[i]
+    return prod_punto
     """
     Calcula el producto punto entre dos vectores.
     
@@ -438,10 +458,12 @@ def dot_product(v1: Vector, v2: Vector) -> float:
     Returns:
         El producto punto como un número
     """
-    pass
-
 
 def magnitude(v: Vector) -> float:
+    suma = 0
+    for x in v.values:
+        suma += x**2
+    return suma**(1/2)
     """
     Calcula la magnitud (norma) de un vector.
     
@@ -451,10 +473,13 @@ def magnitude(v: Vector) -> float:
     Returns:
         La magnitud del vector
     """
-    pass
-
 
 def normalize(v: Vector) -> Vector:
+    if v.magnitude == 0:
+        raise ValueError("Error")
+    else:
+        vector_normal = [x/v.magnitude for x in v.values]
+        return Vector(vector_normal)
     """
     Normaliza un vector (lo convierte en vector unitario).
     
@@ -464,10 +489,20 @@ def normalize(v: Vector) -> Vector:
     Returns:
         Un nuevo vector normalizado
     """
-    pass
-
 
 def cross_product(v1: Vector, v2: Vector) -> Vector:
+    if len(v1.values) != 3 or len(v2.values) != 3:
+        raise ValueError("Solo vectores 3D")
+        
+    x1, y1, z1 = v1.values
+    x2, y2, z2 = v2.values
+        
+    result = [
+        y1 * z2 - z1 * y2,
+        z1 * x2 - x1 * z2,
+        x1 * y2 - y1 * x2]
+        
+    return Vector(result)
     """
     Calcula el producto cruz entre dos vectores 3D.
     
@@ -478,10 +513,12 @@ def cross_product(v1: Vector, v2: Vector) -> Vector:
     Returns:
         Un nuevo vector resultado del producto cruz
     """
-    pass
-
 
 def angle_between(v1: Vector, v2: Vector) -> float:
+    if magnitude(v1) == 0 or magnitude(v2) == 0:
+        raise ValueError("Error")
+    else:
+        return math.acos(dot_product(v1, v2) / (magnitude(v1) * magnitude(v2)))
     """
     Calcula el ángulo entre dos vectores.
     
@@ -492,14 +529,14 @@ def angle_between(v1: Vector, v2: Vector) -> float:
     Returns:
         El ángulo en radianes
     """
-    pass
-
 
 # =============================================================================
 # FUNCIONES DE MATRIZ
 # =============================================================================
 
 def scale(matrix: Matrix, scalar: Union[int, float]) -> Matrix:
+    resultado = [[elemento * scalar for elemento in fila] for fila in matrix.values]
+    return Matrix(resultado)
     """
     Multiplica una matriz por un escalar.
     
@@ -510,10 +547,17 @@ def scale(matrix: Matrix, scalar: Union[int, float]) -> Matrix:
     Returns:
         Una nueva matriz escalada
     """
-    pass
-
 
 def add(m1: Matrix, m2: Matrix) -> Matrix:
+    if len(m1.values) != len(m2.values) or len(m1.values[0]) != len(m2.values[0]):
+        raise ValueError("Las matrices no tienen la misma dimensión")
+    result = []
+    for i in range(len(m1.values)):
+        fila = []
+        for j in range(len(m1.values[0])): 
+            fila.append(m1.values[i][j] + m2.values[i][j])
+        result.append(fila)
+    return Matrix(result)
     """
     Suma dos matrices.
     
@@ -524,10 +568,17 @@ def add(m1: Matrix, m2: Matrix) -> Matrix:
     Returns:
         Una nueva matriz resultado de la suma
     """
-    pass
-
 
 def subtract(m1: Matrix, m2: Matrix) -> Matrix:
+    if len(m1.values) != len(m2.values) or len(m1.values[0]) != len(m2.values[0]):
+        raise ValueError("Las matrices no tienen la misma dimensión")
+    result = []
+    for i in range(len(m1.values)):
+        fila = []
+        for j in range(len(m1.values[0])): 
+            fila.append(m1.values[i][j] - m2.values[i][j])
+        result.append(fila)
+    return Matrix(result)
     """
     Resta dos matrices.
     
@@ -538,10 +589,18 @@ def subtract(m1: Matrix, m2: Matrix) -> Matrix:
     Returns:
         Una nueva matriz resultado de la resta
     """
-    pass
-
 
 def vector_multiply(matrix: Matrix, vector: Vector) -> Vector:
+    if len(matrix.values[0]) != len(vector.values):
+        raise ValueError("Error de multiplicación")
+    else:
+        resultado = []
+        for x in range(len(matrix.values)):
+            fila = 0
+            for y in range(len(matrix.values[0])):
+                fila += matrix.values[x][y]*vector.values[y]
+            resultado.append(fila)
+        return Vector(resultado)
     """
     Multiplica una matriz por un vector.
     
@@ -552,10 +611,20 @@ def vector_multiply(matrix: Matrix, vector: Vector) -> Vector:
     Returns:
         Un nuevo vector resultado de la multiplicación
     """
-    pass
-
 
 def matrix_multiply(m1: Matrix, m2: Matrix) -> Matrix:
+    if len(m1.values[0]) != len(m2.values):
+        raise ValueError("Error de multiplicación")        
+    result = []
+    for i in range(len(m1.values)):
+        fila = []
+        for j in range(len(m2.values[0])):  
+            suma = 0
+            for k in range(len(m2.values)):  
+                suma += m1.values[i][k] * m2.values[k][j]
+            fila.append(suma)
+        result.append(fila)
+    return Matrix(result)
     """
     Multiplica dos matrices.
     
@@ -566,10 +635,15 @@ def matrix_multiply(m1: Matrix, m2: Matrix) -> Matrix:
     Returns:
         Una nueva matriz resultado de la multiplicación
     """
-    pass
-
 
 def transpose(matrix: Matrix) -> Matrix:
+    resultado = []
+    for i in range(len(matrix.values[0])):
+        fila = []
+        for j in range(len(matrix.values)):
+            fila.append(matrix.values[j][i])
+        resultado.append(fila)
+    return Matrix(resultado)
     """
     Calcula la transpuesta de una matriz.
     
@@ -583,6 +657,21 @@ def transpose(matrix: Matrix) -> Matrix:
 
 
 def determinant(matrix: Matrix) -> Union[int, float]:
+    if len(matrix.values) != len(matrix.values[0]):
+        raise ValueError("La matriz no es cuadrada")
+        
+    elif len(matrix.values) == 1:
+        return matrix.values[0][0]
+        
+    elif len(matrix.values) == 2:
+        return matrix.values[0][0]*matrix.values[1][1] - matrix.values[0][1]*matrix.values[1][0]
+        
+    else:
+        det = 0 
+        for j in range(len(matrix.values)):
+            menor = [fila[:j] + fila[j+1:] for fila in matrix.values[1:]]
+            det += ((-1) ** j) * matrix.values[0][j] * determinant(Matrix(menor))
+        return det
     """
     Calcula el determinante de una matriz cuadrada.
     
@@ -596,6 +685,22 @@ def determinant(matrix: Matrix) -> Union[int, float]:
 
 
 def inverse(matrix: Matrix) -> Matrix:
+    if len(matrix.values) != len(matrix.values[0]) or determinant(matrix) == 0:
+        raise ValueError("La matriz no tiene inversa")
+        
+    det = determinant(matrix)
+    cofactores = []
+    for i in range(len(matrix.values)):
+        fila = []
+        for j in range(len(matrix.values)):
+            menor = [row[:j] + row[j+1:] for row in (matrix.values[:i] + matrix.values[i+1:])]
+            cofactor = ((-1) ** (i + j)) * determinant(Matrix(menor))
+            fila.append(cofactor)
+        cofactores.append(fila)
+
+    adjunta = list(map(list, zip(*cofactores)))
+    inversa = [[adjunta[i][j] / det for j in range(len(matrix.values))] for i in range(len(matrix.values))]
+    return Matrix(inversa)
     """
     Calcula la matriz inversa.
     
@@ -605,8 +710,6 @@ def inverse(matrix: Matrix) -> Matrix:
     Returns:
         Una nueva matriz inversa
     """
-    pass
-
 
 def identity_matrix(size: int) -> Matrix:
     """
