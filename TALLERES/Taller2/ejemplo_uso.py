@@ -8,8 +8,6 @@ y las funciones de la librería LAC (Linear Algebra Course).
 NOTA: Este archivo es solo para referencia. Las funciones no están implementadas
 y devolverán errores hasta que los estudiantes las completen.
 """
-import linearAlg
-print("Se está importando desde:", linearAlg.__file__)
 from linearAlg import Vector, Matrix
 from linearAlg import dot_product, magnitude, normalize, cross_product, angle_between
 from linearAlg import scale, add, subtract, vector_multiply, matrix_multiply

@@ -147,10 +147,9 @@ class Vector:
         pass
     
     def angle_with(self, other: 'Vector') -> float:
-        if self.magnitude or other.magnitude == 0:
-            raise ValueError("Error")
-        else:
-            return math.acos((self.dot(other))/(self.magnitude*other.magnitude))
+        if self.magnitude == 0 or other.magnitude == 0:
+            raise ValueError("Error: no se puede calcular el ángulo con un vector nulo")
+        return math.acos(self.dot(other) / (self.magnitude * other.magnitude))
         """
         Calcula el ángulo entre este vector y otro.
         
