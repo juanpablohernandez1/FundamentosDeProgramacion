@@ -1,0 +1,7 @@
+README.md
+linAlg.py
+pyproject.toml
+linAlg.egg-info/PKG-INFO
+linAlg.egg-info/SOURCES.txt
+linAlg.egg-info/dependency_links.txt
+linAlg.egg-info/top_level.txt

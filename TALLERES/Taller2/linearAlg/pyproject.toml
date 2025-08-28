@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linearAlg"
+version = "0.1"
+description = "Librería personalizada de álgebra lineal"
+authors = [
+  { name = "Juan Pablo Hernández Ortiz" }
+]
+dependencies = []
