@@ -267,8 +267,8 @@ class Matrix:
                     suma = 0
                     for k in range(len(other.values)):  
                         suma += self.values[i][k] * other.values[k][j]
-                        fila.append(suma)
-                    result.append(fila)
+                    fila.append(suma)
+                result.append(fila)
             return Matrix(result)
         
         else:
