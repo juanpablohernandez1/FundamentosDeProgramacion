@@ -36,4 +36,14 @@ Parte 6 - Análisis y conclusiones (50%):
 
 Interpreta los resultados obtenidos, responde las preguntas planteadas y extrae conclusiones relevantes. Propón recomendaciones basadas en el análisis. 
 
+## Requisitos
 
+- Python 3.13+
+- pip instalado
+- Librerías necesarias:  
+  - pandas  
+  - numpy  
+  - matplotlib  
+  - seaborn  
+  - jupyter  
+  - python-dotenv
