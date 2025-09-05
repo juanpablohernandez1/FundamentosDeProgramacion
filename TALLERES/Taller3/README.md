@@ -1,4 +1,4 @@
-TALLER  3: CREACIÓN DE EDA 
+## TALLER  3: CREACIÓN DE EDA 
 
 Análisis exploratorio de Datos para correlación entre el consumo de café y el estado de salud de las personas
 
@@ -9,7 +9,7 @@ Taller3/
 ├── GlobalCoffeeHealth/
 │   └── GlobalCoffeeHealthEDA.ipynb # Analisis exploratorio de datos de Global Coffee Health
 ├── data/
-│   └── synthetic_coffee_health_10000 (1).csv # Database de Global Coffee Health
+│   └── synthetic_coffee_health_10000.csv # Database de Global Coffee Health
 ├── .env
 └── README.md
 
