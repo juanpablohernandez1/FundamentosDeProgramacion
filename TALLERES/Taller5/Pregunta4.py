@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import math
 from scipy.stats import norm
-from scipy.stats import t
+from scipy.stats import t,f
 
 print("=== INTERVALO DE CONFIANZA PARA MEDIA DE LECTURA ===")
 print("Problema: ¿Los colegios de jornada completa tienen mejor resultado medio que los demás?")
@@ -41,6 +41,25 @@ n1 = datajornada.loc["COMPLETA", "n"]
 n2 = datajornada.loc["OTRAS", "n"]
 s1 = datajornada.loc["COMPLETA", "desv_std"]
 s2 = datajornada.loc["OTRAS", "desv_std"]
+
+F = (s1**2) / (s2**2)
+gl1 = n1 - 1
+gl2 = n2 - 1
+alpha = 0.10  # Nivel de significancia asociado al 90% de confianza
+
+F_inf = f.ppf(alpha/2, gl1, gl2)     # límite inferior
+F_sup = f.ppf(1 - alpha/2, gl1, gl2) # límite superior
+
+print("\n=== Prueba F para igualdad de varianzas ===")
+print(f"Cociente F: {F:.3f}")
+print(f"Rango crítico: ({F_inf:.3f}, {F_sup:.3f})")
+
+if F < F_inf or F > F_sup:
+    print("las varianzas son distintas (usar Welch).")
+    usar_welch = True
+else:
+    print("se pueden asumir varianzas iguales")
+    usar_welch = False
 
 se = math.sqrt((s1**2)/n1 + (s2**2)/n2) # Error estándar de la diferencia
 

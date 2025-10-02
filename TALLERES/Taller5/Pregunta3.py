@@ -19,8 +19,8 @@ data = pd.read_csv(
 nat_scores = data['NATURALEZA'].dropna()
 print(f"✓ Datos cargados. Observaciones válidas: {len(nat_scores)}")
 
-# 2. CODIFICACIÓN BINARIA (1 = privado, 0 = oficial)
-nat_scores_bin = nat_scores.apply(lambda x: 1 if "NO OFICIAL" in x else 0)
+# 2. AGRUPACIÓN DE DATOS DE COLEGIOS NO OFICIALES
+nat_scores_bin = (data['NATURALEZA'] == "NO OFICIAL").astype(int)
 
 # 3. CÁLCULO DE ESTADÍSTICOS
 n = len(nat_scores_bin)
